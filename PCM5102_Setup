@@ -1,0 +1,24 @@
+This is more a PCM5102 breakout than it is a ready-to-go DAC board. As such, it is necessary to consult the PCM5102 datasheet for the information.
+
+The following is a synopsis (low = ground, high = 3.3v. The device is NOT 5V tolerant on inputs.):
+VCC = 5V power supply. The board has a voltage regulator that drops this to 3.3V that the PCM5102 requires.
+3.3V = Output of the 3.3V regulator on the board.
+GND = Common electical ground.
+FLT = Filter selection: low = normal latency, high = low latency
+DMP = De-emphasis control: low = off, high = on
+SCL = System clock input
+BCK = Audio data bit clock input
+DIN = Audio data input
+LCK = Audio data word clock input
+FMT = Audio format selection: low = I2s, high = left justified
+XMT = Soft mute control: low = mute, high = un-mute
+
+To make this work you MUST connect the other pins in addition to the I2S data lines. These can either be controlled by 3.3V GPIO or tied directly.
+
+A good default is:
+FLT = low (normal latency)
+DMP = low (no de-emphasis)
+FMT = low (I2S protocol)
+XMT = high [3.3v] (un-mute)
+
+BCK, DIN, LCK are the normal I2S data lines. SCL does not need to be connected. The PCM5102 will generate this signal in its absense. If XMT is not connected, the board will be muted and will NOT generate any sound.
